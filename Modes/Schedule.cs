@@ -20,9 +20,11 @@ namespace WorkScheduler.Modes
             string weekOf = Console.ReadLine();
 
             MySchedule sc = new MySchedule(weekOf);
+            Days daysNeedingCovered = Days.All;
 
             while (true)
             {
+                Console.WriteLine($"The following days are missing employee coverage: {daysNeedingCovered}");
                 Console.Write("Enter mode (add/remove/done/exit): ");
                 string[] content = Console.ReadLine().ToLower().Split(' ');
 
@@ -106,8 +108,13 @@ namespace WorkScheduler.Modes
                         goto Add_TimeRange;
                     }
 
-                    sc.Add(employee, day, time, isOverride, out string message);
+                    bool success = sc.Add(employee, day, time, isOverride, out string message);
                     Console.WriteLine(message);
+
+                    if (success)
+                    {
+                        daysNeedingCovered &= ~day;
+                    }
 
                 }
                 else if (mode == "remove")

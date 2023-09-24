@@ -28,30 +28,15 @@ namespace WorkScheduler.Structures
 
         public bool IsAvailableRange(Days day, string range)
         {
-            string[] parts = range.Split('-');
-
-            if (parts.Length != 2)
+            if (!Helpers.IsRange(range, out float firstNumber, out float secondNumber))
                 return false;
-
-            float firstNumber = Helpers.ToNumber(parts[0].ToLower());
-            float secondNumber = Helpers.ToNumber(parts[1].ToLower());
-
-            Console.WriteLine($"AV: {firstNumber}-{secondNumber}");
 
             foreach (Availability available in Available)
             {
                 if (!available.Days.HasFlag(day))
                     continue;
-
-                string[] parts2 = available.Range.Split('-');
-
-                if (parts2.Length != 2)
-                    return false;
-
-                float start = Helpers.ToNumber(parts2[0].ToLower());
-                float end = Helpers.ToNumber(parts2[1].ToLower());
-
-                Console.WriteLine($"REQ: {start}-{end}");
+                if (!Helpers.IsRange(available.Range, out float start, out float end))
+                    continue;
 
                 if (firstNumber >= start && secondNumber < end)
                     return true;

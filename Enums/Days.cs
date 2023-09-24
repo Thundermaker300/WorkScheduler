@@ -13,5 +13,6 @@ namespace WorkScheduler
         Thursday = 16,
         Friday = 32,
         Saturday = 64,
+        All = 127,
     }
 }
