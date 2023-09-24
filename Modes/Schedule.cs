@@ -16,10 +16,23 @@ namespace WorkScheduler.Modes
 
         public void Run()
         {
+        Select_Date:
             Console.Write("Enter week of (eg. 9-10): ");
             string weekOf = Console.ReadLine();
 
-            MySchedule sc = new MySchedule(weekOf);
+            if (!DateTime.TryParse($"{weekOf}-{DateTime.UtcNow.Year}", out DateTime dt))
+            {
+                Console.WriteLine("Invalid date provided!");
+                goto Select_Date;
+            }
+
+            if (dt.DayOfWeek != DayOfWeek.Sunday)
+            {
+                Console.WriteLine($"The \"week of\" input should always be the Sunday starting the week. The provided date is a {dt.DayOfWeek}, which is not valid.");
+                goto Select_Date;
+            }
+
+            MySchedule sc = new MySchedule(dt);
             Days daysNeedingCovered = Days.All;
 
             while (true)
@@ -54,7 +67,7 @@ namespace WorkScheduler.Modes
                         Console.WriteLine("Invalid day!");
                         goto Add_EnterDay;
                     }
-                    Console.WriteLine($"Available employees on {day}:");
+                    Console.WriteLine($"Available employees on {day} ({dt.AddDays(Helpers.ToAdd[day]):MM/dd}):");
                     foreach (Person p in Program.People)
                     {
                         if (p.IsAvailable(day, out Availability availabilityForDay))
@@ -138,8 +151,8 @@ namespace WorkScheduler.Modes
                             continue;
                     }
 
-                    sc.Write();
-                    Console.WriteLine($"File created at: Schedules/{DateTime.UtcNow.Year}/{weekOf}-Schedule.json");
+                    sc.Write(out string path);
+                    Console.WriteLine($"File created at: {path}");
                     Console.WriteLine("OVERRIDE MODE EXITED");
                     break;
                 }

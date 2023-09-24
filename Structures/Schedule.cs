@@ -10,13 +10,13 @@ namespace WorkScheduler.Structures
 {
     public class Schedule
     {
-        public Schedule(string weekOf)
+        public Schedule(DateTime weekOf)
         {
             WeekOf = weekOf;
             TheSchedule = new();
         }
 
-        public string WeekOf { get; }
+        public DateTime WeekOf { get; }
         public Dictionary<Days, Dictionary<string, string>> TheSchedule { get; }
 
         public bool Add(Person p, Days day, string time, bool isOverride, out string message)
@@ -61,9 +61,9 @@ namespace WorkScheduler.Structures
             return false;
         }
 
-        public void Write()
+        public void Write(out string path)
         {
-            string path = Path.Combine(Paths.SchedulesFolder, DateTime.UtcNow.Year.ToString(), $"{WeekOf}-Schedule.json");
+            path = Path.Combine(Paths.SchedulesFolder, DateTime.UtcNow.Year.ToString(), $"{WeekOf:MM-dd}-Schedule.json");
             string json = JsonConvert.SerializeObject(TheSchedule, Formatting.Indented);
             File.WriteAllText(path, json);
         }

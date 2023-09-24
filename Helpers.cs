@@ -10,6 +10,16 @@ namespace WorkScheduler
 {
     public static class Helpers
     {
+        public static Dictionary<Days, int> ToAdd { get; } = new Dictionary<Days, int>()
+        {
+            [Days.Sun] = 0,
+            [Days.Mon] = 1,
+            [Days.Tue] = 2,
+            [Days.Wed] = 3,
+            [Days.Thu] = 4,
+            [Days.Fri] = 5,
+            [Days.Sat] = 6,
+        };
         public static Person GetPerson(string name)
         {
             Person p = null;
