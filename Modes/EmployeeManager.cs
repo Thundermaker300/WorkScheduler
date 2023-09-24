@@ -91,7 +91,17 @@ namespace WorkScheduler.Modes
                 }
                 else if (mode == "remove")
                 {
-                    Console.WriteLine("Not implemented yet.");
+                    Console.Write("Enter full name of employee to remove: ");
+                    string name = Console.ReadLine();
+                    int amount = Program.People.RemoveAll(person => person.Name == name);
+                    if (amount == 0)
+                    {
+                        Console.WriteLine("Remove failed. No employees were found with the provided name.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Removed {amount} employees with the provided name. Make sure to save!");
+                    }
                 }
                 else if (mode == "save")
                 {
