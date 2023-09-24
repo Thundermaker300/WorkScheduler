@@ -6,13 +6,13 @@ namespace WorkScheduler
     public enum Days
     {
         Unknown = 0,
-        Sunday = 1,
-        Monday = 2,
-        Tuesday = 4,
-        Wednesday = 8,
-        Thursday = 16,
-        Friday = 32,
-        Saturday = 64,
+        Sun = 1,
+        Mon = 2,
+        Tue = 4,
+        Wed = 8,
+        Thu = 16,
+        Fri = 32,
+        Sat = 64,
         All = 127,
     }
 }
